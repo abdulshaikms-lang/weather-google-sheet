@@ -18,7 +18,7 @@ and exports it to Excel and Google Sheets.
 ## Setup
 
 ### 1. Clone the repo
-    git clone https://github.com/YOUR_USERNAME/weather-google-sheet.git
+    git clone https://github.com/abdulshaikms-lang/weather-google-sheet.git
 
 ### 2. Configure properties
     cp src/main/resources/application.properties.example \
