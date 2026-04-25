@@ -1,0 +1,13 @@
+package com.weather_api_google_sheet.weather_google_sheet;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class WeatherGoogleSheetApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(WeatherGoogleSheetApplication.class, args);
+	}
+
+}
