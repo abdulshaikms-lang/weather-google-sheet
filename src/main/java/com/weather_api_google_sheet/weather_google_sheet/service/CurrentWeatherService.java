@@ -36,9 +36,19 @@ public class CurrentWeatherService {
     public List<CurrentWeatherDtoResponce> getMultipleCityResponce(List<String> cities){
 
         List<CurrentWeatherDtoResponce> result = new ArrayList<>();
-        for(String city : cities){
+//        for(String city : cities){
 
-            result.add(getCurrentWeather(city));
+            for(int i=0; i<cities.size();i++){
+            result.add(getCurrentWeather(cities.get(i)));
+            if(i<cities.size()-1){
+                try{
+                    Thread.sleep(1000);
+
+                }
+                catch (InterruptedException e){
+                    Thread.currentThread().interrupt();
+                }
+            }
         }
         return result;
 
