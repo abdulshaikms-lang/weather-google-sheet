@@ -1,6 +1,7 @@
 package com.weather_api_google_sheet.weather_google_sheet.service;
 
 import com.weather_api_google_sheet.weather_google_sheet.dto.CurrentWeatherDtoResponce;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class CurrentWeatherService {
     }
 
 
+    @RateLimiter(name = "weatherApi")
     public CurrentWeatherDtoResponce getCurrentWeather(String city) {
 
         String url="http://api.weatherstack.com/current" +"?access_key=" + apiKey + "&query=" +city;
@@ -36,22 +38,9 @@ public class CurrentWeatherService {
     public List<CurrentWeatherDtoResponce> getMultipleCityResponce(List<String> cities){
 
         List<CurrentWeatherDtoResponce> result = new ArrayList<>();
-//        for(String city : cities){
-
-            for(int i=0; i<cities.size();i++){
-            result.add(getCurrentWeather(cities.get(i)));
-            if(i<cities.size()-1){
-                try{
-                    Thread.sleep(1000);
-
-                }
-                catch (InterruptedException e){
-                    Thread.currentThread().interrupt();
-                }
-            }
+        for (String city: cities){
+            result.add(getCurrentWeather(city));
         }
         return result;
-
-
     }
 }

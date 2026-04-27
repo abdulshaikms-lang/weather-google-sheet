@@ -1,3 +1,8 @@
+# ── Secrets — NEVER push these ──────────────────────
+src/main/resources/application.properties
+src/main/resources/*.json
+
+# ── Spring Boot Default Below ────────────────────────
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
