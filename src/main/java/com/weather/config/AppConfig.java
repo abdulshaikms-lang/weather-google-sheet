@@ -1,4 +1,4 @@
-package com.weather_api_google_sheet.weather_google_sheet.config;
+package com.weather.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,10 +1,10 @@
-package com.weather_api_google_sheet.weather_google_sheet.controller;
+package com.weather.controller;
 
 
-import com.weather_api_google_sheet.weather_google_sheet.dto.CurrentWeatherDtoResponce;
-import com.weather_api_google_sheet.weather_google_sheet.service.CurrentWeatherService;
-import com.weather_api_google_sheet.weather_google_sheet.service.ExcelService;
-import com.weather_api_google_sheet.weather_google_sheet.service.GoogleSheetService;
+import com.weather.dto.CurrentWeatherDtoResponce;
+import com.weather.service.CurrentWeatherService;
+import com.weather.service.ExcelService;
+import com.weather.service.GoogleSheetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -21,16 +21,14 @@ import java.util.List;
 @RequiredArgsConstructor
 
 public class WeatherController {
-private final CurrentWeatherService currentWeather;
-private final ExcelService excelService;
-private final GoogleSheetService googleSheetService;
+    private final CurrentWeatherService currentWeather;
+    private final ExcelService excelService;
+    private final GoogleSheetService googleSheetService;
 
     @GetMapping("/current")
-    public ResponseEntity<CurrentWeatherDtoResponce> getCurrentWeather(@RequestParam String city){
+    public ResponseEntity<CurrentWeatherDtoResponce> getCurrentWeather(@RequestParam String city) {
 
         return ResponseEntity.ok().body(currentWeather.getCurrentWeather(city));
-
-
     }
 
     @GetMapping("/export")
@@ -38,7 +36,7 @@ private final GoogleSheetService googleSheetService;
 
         List<CurrentWeatherDtoResponce> multipleResponce = currentWeather.getMultipleCityResponce(cities);
 
-        ByteArrayInputStream excelFile=excelService.downloadTOExcel(multipleResponce);
+        ByteArrayInputStream excelFile = excelService.downloadTOExcel(multipleResponce);
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -49,23 +47,21 @@ private final GoogleSheetService googleSheetService;
     }
 
 
-
     @PostMapping("/export/google-sheet")
-    public ResponseEntity<String> exportToGoogleSheet(@RequestParam List<String> cities){
+    public ResponseEntity<String> exportToGoogleSheet(@RequestParam List<String> cities) {
 
+        try {
 
-        try{
             List<CurrentWeatherDtoResponce> multipleResponce = currentWeather.getMultipleCityResponce(cities);
 
-            if(multipleResponce.isEmpty()) {
+            if (multipleResponce.isEmpty()) {
                 return ResponseEntity.badRequest().body("No data fetched check the city names.");
 
             }
 
             googleSheetService.writeToGoogleSheet(multipleResponce);
-            return  ResponseEntity.ok("Weather data for "+cities.size());
-        }
-        catch (Exception e){
+            return ResponseEntity.ok("Weather data for " + cities.size());
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error" + e.getMessage());
         }
     }

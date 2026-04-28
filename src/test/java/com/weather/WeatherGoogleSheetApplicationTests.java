@@ -1,4 +1,4 @@
-package com.weather_api_google_sheet.weather_google_sheet;
+package com.weather;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

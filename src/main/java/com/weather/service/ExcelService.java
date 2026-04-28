@@ -1,6 +1,6 @@
-package com.weather_api_google_sheet.weather_google_sheet.service;
+package com.weather.service;
 
-import com.weather_api_google_sheet.weather_google_sheet.dto.CurrentWeatherDtoResponce;
+import com.weather.dto.CurrentWeatherDtoResponce;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -8,16 +8,13 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
+
 @Service
 public class ExcelService {
 
 
-    public ByteArrayInputStream downloadTOExcel(List<CurrentWeatherDtoResponce> listOfResponces) throws IOException
-    {
+    public ByteArrayInputStream downloadTOExcel(List<CurrentWeatherDtoResponce> listOfResponces) throws IOException {
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("weather");
@@ -31,18 +28,18 @@ public class ExcelService {
 
         Row rowHeader = sheet.createRow(0);
         String[] header = {
-                "City", "Country","Local Time","Temperature","Weather Code","Weather Descriptions"
+                "City", "Country", "Local Time", "Temperature", "Weather Code", "Weather Descriptions"
         };
-        for(int i =0;i<header.length;i++){
+        for (int i = 0; i < header.length; i++) {
 
             Cell cell = rowHeader.createCell(i);
             cell.setCellValue(header[i]);
             cell.setCellStyle(headerStyle);
 
         }
-        int rowNumber=1;
+        int rowNumber = 1;
 
-        for(CurrentWeatherDtoResponce dto : listOfResponces){
+        for (CurrentWeatherDtoResponce dto : listOfResponces) {
 
             Row row = sheet.createRow(rowNumber++);
             row.createCell(1).setCellValue(dto.getLocation().getName());
@@ -57,13 +54,13 @@ public class ExcelService {
 
 
         }
-        for(int i=0;i<header.length;i++){
+        for (int i = 0; i < header.length; i++) {
             sheet.autoSizeColumn(i);
         }
-        ByteArrayOutputStream outputStream= new ByteArrayOutputStream();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         workbook.write(outputStream);
         workbook.close();
         return new ByteArrayInputStream(outputStream.toByteArray());
 
-}
+    }
 }

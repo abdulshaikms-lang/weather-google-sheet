@@ -1,4 +1,4 @@
-package com.weather_api_google_sheet.weather_google_sheet;
+package com.weather;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
